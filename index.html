@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pronos Foot — Coupe du Monde 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0f0c;--bg-2:#0e150f;--surface:#121b15;--surface-2:#16221a;
+    --line:rgba(197,255,58,.12);--line-soft:rgba(255,255,255,.07);
+    --lime:#c5ff3a;--lime-dim:#9bce26;--hot:#ff5a36;
+    --text:#eef3ec;--muted:#8a978d;--radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  html[dir="rtl"] body{font-family:'Noto Sans Arabic','Archivo',sans-serif}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(900px 500px at 80% -10%, rgba(197,255,58,.10), transparent 60%),
+      radial-gradient(700px 500px at -10% 20%, rgba(255,90,54,.07), transparent 55%),var(--bg)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+  header{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(10,15,12,.82);border-bottom:1px solid var(--line-soft)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+  .brand .dot{width:13px;height:13px;border-radius:50%;background:var(--lime);box-shadow:0 0 14px var(--lime)}
+  .brand b{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;font-size:22px}
+  .brand b span{color:var(--lime)}
+  .nav-right{display:flex;align-items:center;gap:10px}
+  .lang{background:var(--surface);color:var(--text);border:1px solid var(--line-soft);border-radius:999px;
+    padding:9px 12px;font-family:'Archivo';font-weight:700;font-size:13px;cursor:pointer;outline:none}
+  .lang:focus{border-color:var(--line)}
+  .cta{font-family:'Archivo';font-weight:800;font-size:14px;cursor:pointer;background:var(--lime);color:#0a0f0c;
+    border:none;padding:11px 18px;border-radius:999px;letter-spacing:.2px;transition:transform .15s ease, box-shadow .15s ease}
+  .cta:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(197,255,58,.25)}
+
+  .hero{padding:54px 0 30px;position:relative}
+  .kick{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:2px;
+    text-transform:uppercase;color:var(--lime);border:1px solid var(--line);border-radius:999px;padding:6px 14px;margin-bottom:18px}
+  .kick .pulse{width:7px;height:7px;border-radius:50%;background:var(--hot);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,90,54,.6)}70%{box-shadow:0 0 0 8px rgba(255,90,54,0)}100%{box-shadow:0 0 0 0 rgba(255,90,54,0)}}
+  h1{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(38px,7.5vw,78px);line-height:.98;letter-spacing:.5px;text-transform:uppercase}
+  h1 em{font-style:normal;color:var(--lime)}
+  .lead{color:var(--muted);max-width:560px;margin-top:16px;font-size:17px}
+
+  .countdown{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+  .cd{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;padding:14px 18px;min-width:78px;text-align:center}
+  .cd .n{font-family:'Anton',sans-serif;font-size:34px;line-height:1;color:var(--text)}
+  .cd .l{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:6px}
+  .cd-note{color:var(--muted);font-size:13px;margin-top:12px}
+
+  .tabs{display:flex;gap:8px;overflow-x:auto;padding:26px 0 8px;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{white-space:nowrap;cursor:pointer;font-weight:700;font-size:14px;background:transparent;color:var(--muted);
+    border:1px solid var(--line-soft);padding:10px 16px;border-radius:999px;transition:all .15s ease}
+  .tab:hover{color:var(--text);border-color:var(--line)}
+  .tab.active{background:var(--lime);color:#0a0f0c;border-color:var(--lime)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;padding:8px 0 40px}
+  .card{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line-soft);
+    border-radius:var(--radius);padding:18px;transition:border-color .2s ease, transform .2s ease}
+  .card:hover{border-color:var(--line);transform:translateY(-2px)}
+  .card .top{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);
+    text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:14px;gap:8px}
+  .badge-live{color:var(--hot)}
+  .teams{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .team{display:flex;flex-direction:column;align-items:center;gap:8px;width:40%;text-align:center}
+  .team img{width:42px;height:42px;object-fit:contain}
+  .team span{font-weight:700;font-size:14px}
+  .vs{font-family:'Anton',sans-serif;font-size:20px;color:var(--muted)}
+  .score{font-family:'Anton',sans-serif;font-size:26px;color:var(--lime)}
+  .when{text-align:center;color:var(--muted);font-size:13px;margin-top:12px}
+  .ai-btn{width:100%;margin-top:16px;cursor:pointer;font-weight:800;font-size:14px;background:transparent;
+    color:var(--lime);border:1px solid var(--line);padding:11px;border-radius:10px;transition:all .15s ease;
+    display:flex;align-items:center;justify-content:center;gap:8px}
+  .ai-btn:hover{background:rgba(197,255,58,.08)}
+  .ai-btn:disabled{opacity:.6;cursor:default}
+  .prono{margin-top:14px;border-top:1px dashed var(--line-soft);padding-top:14px;font-size:14.5px;
+    color:#dfe7dc;white-space:pre-wrap;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+  .lock{margin-top:14px;border-top:1px dashed var(--line-soft);padding-top:16px;text-align:center}
+  .lock p{color:var(--muted);font-size:14px;margin-bottom:12px}
+  .lock .cta{font-size:13px;padding:10px 16px}
+
+  .state{text-align:center;color:var(--muted);padding:60px 20px;font-size:15px}
+  .spinner{width:22px;height:22px;border:2px solid var(--line-soft);border-top-color:var(--lime);border-radius:50%;
+    display:inline-block;animation:spin .8s linear infinite;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  footer{border-top:1px solid var(--line-soft);background:var(--bg-2);margin-top:30px}
+  .foot{padding:34px 0 60px;color:var(--muted);font-size:13px}
+  .resp{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line-soft);
+    border-radius:12px;padding:16px;margin-bottom:20px}
+  .resp .age{font-family:'Anton',sans-serif;font-size:22px;color:var(--hot);border:2px solid var(--hot);
+    border-radius:8px;padding:2px 8px;flex-shrink:0}
+  .resp b{color:var(--text)}
+  .foot a{color:var(--lime-dim);text-decoration:none}
+  .foot-links{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px}
+
+  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;
+    background:rgba(5,8,6,.7);backdrop-filter:blur(4px)}
+  .modal.open{display:flex;animation:fade .2s ease}
+  .modal .box{background:var(--surface);border:1px solid var(--line);border-radius:18px;max-width:420px;width:100%;padding:28px;position:relative}
+  .modal h3{font-family:'Anton',sans-serif;font-weight:400;font-size:28px;text-transform:uppercase}
+  .modal .price{font-family:'Anton',sans-serif;font-size:42px;color:var(--lime);margin:6px 0 2px}
+  .modal .price small{font-family:'Archivo';font-size:15px;color:var(--muted);font-weight:600}
+  .modal .trial-badge{display:inline-block;background:rgba(197,255,58,.12);color:var(--lime);border:1px solid var(--line);
+    font-weight:800;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border-radius:999px;margin-top:10px}
+  .modal .trial-after{color:var(--muted);font-size:13.5px;margin-top:2px}
+  .modal ul{list-style:none;margin:18px 0;display:grid;gap:10px}
+  .modal li{display:flex;gap:10px;align-items:center;font-size:14.5px}
+  .modal li::before{content:"✓";color:var(--lime);font-weight:800}
+  .modal .note{font-size:12.5px;color:var(--muted);margin-top:14px;text-align:center}
+  .modal .close{position:absolute;top:16px;right:18px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer}
+  html[dir="rtl"] .modal .close{right:auto;left:18px}
+  .modal .cta{width:100%;margin-top:6px;padding:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#"><span class="dot"></span><b>PRONOS<span>FOOT</span></b></a>
+    <div class="nav-right">
+      <select class="lang" id="langSel" aria-label="Language">
+        <option value="fr">🇫🇷 FR</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="pt">🇵🇹 PT</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="de">🇩🇪 DE</option>
+        <option value="it">🇮🇹 IT</option>
+      </select>
+      <button class="cta" id="subBtn" onclick="openModal()"></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="kick"><span class="pulse"></span> <span data-i18n="heroKick"></span></span>
+    <h1><span data-i18n="heroLine"></span> <em data-i18n="heroEm"></em></h1>
+    <p class="lead" data-i18n="lead"></p>
+    <div class="countdown" id="countdown"></div>
+    <p class="cd-note" id="cdNote"></p>
+  </section>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-comp="wc" data-i18n="tabWc"></button>
+    <button class="tab" data-comp="l1">Ligue 1</button>
+    <button class="tab" data-comp="pl">Premier League</button>
+    <button class="tab" data-comp="liga">La Liga</button>
+    <button class="tab" data-comp="seriea">Serie A</button>
+    <button class="tab" data-comp="bundes">Bundesliga</button>
+  </div>
+
+  <div id="matches" class="grid"></div>
+  <div id="state" class="state"></div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="resp">
+      <span class="age">18+</span>
+      <div data-i18n="respHtml" data-html="1"></div>
+    </div>
+    <p data-i18n="about"></p>
+    <div class="foot-links">
+      <a href="#" data-i18n="linkLegal"></a>
+      <a href="#" data-i18n="linkCgv"></a>
+      <a href="#" data-i18n="linkPrivacy"></a>
+      <a href="https://anj.fr" target="_blank" rel="noopener">ANJ</a>
+      <a href="#" data-i18n="linkContact"></a>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="box">
+    <button class="close" onclick="closeModal()">×</button>
+    <h3 data-i18n="modalTitle"></h3>
+    <div class="trial-badge" data-i18n="trialHeadline"></div>
+    <div class="price">14,90€ <small data-i18n="priceUnit"></small></div>
+    <div class="trial-after" data-i18n="trialAfter"></div>
+    <ul>
+      <li data-i18n="feat1"></li>
+      <li data-i18n="feat2"></li>
+      <li data-i18n="feat3"></li>
+      <li data-i18n="feat4"></li>
+    </ul>
+    <button class="cta" id="subscribeBtn" onclick="startTrial()"></button>
+    <p class="note" data-i18n="modalNote"></p>
+  </div>
+</div>
+
+<script>
+const TR = {
+  fr:{locale:"fr-FR",subscribe:"S'abonner · 14,90€",heroKick:"Mondial 2026 · 11 juin – 19 juillet",heroLine:"Les analyses de la",heroEm:"Coupe du Monde",lead:"Matchs, tendances et analyses d'avant-match propulsées par l'IA — Mondial 2026 et grands championnats européens, mis à jour en continu.",days:"Jours",hours:"Heures",min:"Min",sec:"Sec",cdNote:"Avant le coup d'envoi Mexique – Afrique du Sud à l'Estadio Azteca.",liveBig:"EN COURS",liveNote:"Le Mondial 2026 a débuté — suivez les matchs ci-dessous.",tabWc:"🏆 Coupe du Monde",loading:"Chargement des matchs…",noMatches:"Aucun match à afficher pour le moment.",errLoad:"Erreur de chargement.",errServer:"Impossible de joindre le serveur.",statusLive:"● DIRECT",statusFinished:"Terminé",statusUpcoming:"À venir",vs:"VS",aiBtn:"⚡ Analyse IA",aiLoading:"Analyse en cours…",lockUsed:"🔒 Tu as utilisé ton analyse gratuite.<br>Abonne-toi pour débloquer toutes les analyses.",lockCta:"Débloquer · 14,90€/mois",respHtml:"<b>Jouer comporte des risques :</b> endettement, dépendance, isolement. Appelez le <b>09 74 75 13 13</b> (Joueurs Info Service, appel non surtaxé). Les analyses publiées ici sont fournies <b>à titre purement informatif</b> et ne garantissent aucun gain. Aucun résultat sportif n'est prévisible avec certitude.",about:"Pronos Foot est un service d'information et d'analyse sportive indépendant. Il ne propose pas de paris et n'est lié à aucun opérateur. Pour parier, adressez-vous uniquement à un opérateur agréé par l'ANJ.",linkLegal:"Mentions légales",linkCgv:"CGV / CGU",linkPrivacy:"Confidentialité",linkContact:"Contact",modalTitle:"Pass Pronos",priceUnit:"/ mois",feat1:"Toutes les analyses IA débloquées",feat2:"Mondial 2026 + grands championnats",feat3:"Tendances d'avant-match en illimité",feat4:"Sans engagement, résiliable à tout moment",subscribeBtn:"Je m'abonne",modalNote:"Service d'analyse à titre informatif. 18+. Les paris comportent des risques.",paymentSoon:"Le paiement sera bientôt disponible. (Intégration Stripe à venir.)"},
+  en:{locale:"en-GB",subscribe:"Subscribe · €14.90",heroKick:"World Cup 2026 · June 11 – July 19",heroLine:"Pre-match analysis for the",heroEm:"World Cup",lead:"Matches, trends and AI-powered pre-match analysis — World Cup 2026 and Europe's top leagues, updated continuously.",days:"Days",hours:"Hours",min:"Min",sec:"Sec",cdNote:"Until kickoff: Mexico vs South Africa at the Estadio Azteca.",liveBig:"LIVE NOW",liveNote:"The 2026 World Cup has started — follow the matches below.",tabWc:"🏆 World Cup",loading:"Loading matches…",noMatches:"No matches to show right now.",errLoad:"Loading error.",errServer:"Cannot reach the server.",statusLive:"● LIVE",statusFinished:"Finished",statusUpcoming:"Upcoming",vs:"VS",aiBtn:"⚡ AI Analysis",aiLoading:"Analysing…",lockUsed:"🔒 You've used your free analysis.<br>Subscribe to unlock every analysis.",lockCta:"Unlock · €14.90/mo",respHtml:"<b>Gambling carries risks:</b> debt, addiction, isolation. If you need help, call <b>09 74 75 13 13</b> (France, free call). The analyses here are provided <b>for informational purposes only</b> and guarantee no winnings. No sporting result can be predicted with certainty.",about:"Pronos Foot is an independent sports information and analysis service. It does not offer betting and is not affiliated with any operator. To place bets, use only an ANJ-licensed operator.",linkLegal:"Legal notice",linkCgv:"Terms",linkPrivacy:"Privacy",linkContact:"Contact",modalTitle:"Pronos Pass",priceUnit:"/ month",feat1:"All AI analyses unlocked",feat2:"World Cup 2026 + top leagues",feat3:"Unlimited pre-match trends",feat4:"No commitment, cancel anytime",subscribeBtn:"Subscribe",modalNote:"Analysis for informational purposes. 18+. Betting carries risks.",paymentSoon:"Payment will be available soon. (Stripe integration coming.)"},
+  es:{locale:"es-ES",subscribe:"Suscribirse · 14,90€",heroKick:"Mundial 2026 · 11 jun – 19 jul",heroLine:"Análisis previos del",heroEm:"Mundial",lead:"Partidos, tendencias y análisis previos impulsados por IA — Mundial 2026 y las grandes ligas europeas, actualizados continuamente.",days:"Días",hours:"Horas",min:"Min",sec:"Seg",cdNote:"Hasta el pitido inicial: México vs Sudáfrica en el Estadio Azteca.",liveBig:"EN DIRECTO",liveNote:"El Mundial 2026 ha comenzado — sigue los partidos abajo.",tabWc:"🏆 Mundial",loading:"Cargando partidos…",noMatches:"No hay partidos por ahora.",errLoad:"Error de carga.",errServer:"No se puede conectar con el servidor.",statusLive:"● EN VIVO",statusFinished:"Finalizado",statusUpcoming:"Próximo",vs:"VS",aiBtn:"⚡ Análisis IA",aiLoading:"Analizando…",lockUsed:"🔒 Has usado tu análisis gratuito.<br>Suscríbete para desbloquear todos los análisis.",lockCta:"Desbloquear · 14,90€/mes",respHtml:"<b>El juego conlleva riesgos:</b> deudas, adicción, aislamiento. Si necesitas ayuda, llama al <b>09 74 75 13 13</b> (Francia, llamada gratuita). Los análisis aquí son <b>solo informativos</b> y no garantizan ninguna ganancia. Ningún resultado deportivo es predecible con certeza.",about:"Pronos Foot es un servicio independiente de información y análisis deportivo. No ofrece apuestas ni está afiliado a ningún operador. Para apostar, utiliza solo un operador con licencia de la ANJ.",linkLegal:"Aviso legal",linkCgv:"Términos",linkPrivacy:"Privacidad",linkContact:"Contacto",modalTitle:"Pase Pronos",priceUnit:"/ mes",feat1:"Todos los análisis IA desbloqueados",feat2:"Mundial 2026 + grandes ligas",feat3:"Tendencias previas ilimitadas",feat4:"Sin compromiso, cancela cuando quieras",subscribeBtn:"Suscribirse",modalNote:"Análisis con fines informativos. 18+. Las apuestas conllevan riesgos.",paymentSoon:"El pago estará disponible pronto. (Integración con Stripe en camino.)"},
+  pt:{locale:"pt-PT",subscribe:"Assinar · 14,90€",heroKick:"Mundial 2026 · 11 jun – 19 jul",heroLine:"Análises pré-jogo do",heroEm:"Mundial",lead:"Jogos, tendências e análises pré-jogo com IA — Mundial 2026 e as grandes ligas europeias, atualizados continuamente.",days:"Dias",hours:"Horas",min:"Min",sec:"Seg",cdNote:"Até o apito inicial: México vs África do Sul no Estádio Azteca.",liveBig:"AO VIVO",liveNote:"O Mundial 2026 começou — acompanhe os jogos abaixo.",tabWc:"🏆 Mundial",loading:"A carregar jogos…",noMatches:"Nenhum jogo para mostrar de momento.",errLoad:"Erro ao carregar.",errServer:"Não foi possível contactar o servidor.",statusLive:"● AO VIVO",statusFinished:"Terminado",statusUpcoming:"Em breve",vs:"VS",aiBtn:"⚡ Análise IA",aiLoading:"A analisar…",lockUsed:"🔒 Usaste a tua análise gratuita.<br>Assina para desbloquear todas as análises.",lockCta:"Desbloquear · 14,90€/mês",respHtml:"<b>O jogo acarreta riscos:</b> dívidas, dependência, isolamento. Se precisares de ajuda, liga <b>09 74 75 13 13</b> (França, chamada gratuita). As análises aqui são <b>apenas informativas</b> e não garantem qualquer ganho. Nenhum resultado desportivo é previsível com certeza.",about:"Pronos Foot é um serviço independente de informação e análise desportiva. Não oferece apostas nem está associado a qualquer operador. Para apostar, recorre apenas a um operador licenciado pela ANJ.",linkLegal:"Aviso legal",linkCgv:"Termos",linkPrivacy:"Privacidade",linkContact:"Contacto",modalTitle:"Passe Pronos",priceUnit:"/ mês",feat1:"Todas as análises IA desbloqueadas",feat2:"Mundial 2026 + grandes ligas",feat3:"Tendências pré-jogo ilimitadas",feat4:"Sem compromisso, cancela quando quiseres",subscribeBtn:"Assinar",modalNote:"Análise com fins informativos. 18+. As apostas acarretam riscos.",paymentSoon:"O pagamento estará disponível em breve. (Integração Stripe a caminho.)"},
+  ar:{locale:"ar",subscribe:"اشترك · 14,90€",heroKick:"كأس العالم 2026 · 11 يونيو – 19 يوليو",heroLine:"تحليلات ما قبل المباراة لـ",heroEm:"كأس العالم",lead:"مباريات واتجاهات وتحليلات ما قبل المباراة مدعومة بالذكاء الاصطناعي — كأس العالم 2026 وأكبر الدوريات الأوروبية، محدّثة باستمرار.",days:"أيام",hours:"ساعات",min:"دقائق",sec:"ثوانٍ",cdNote:"حتى انطلاق المباراة: المكسيك ضد جنوب أفريقيا في ملعب أزتيكا.",liveBig:"مباشر الآن",liveNote:"انطلق كأس العالم 2026 — تابع المباريات أدناه.",tabWc:"🏆 كأس العالم",loading:"جارٍ تحميل المباريات…",noMatches:"لا توجد مباريات لعرضها حاليًا.",errLoad:"خطأ في التحميل.",errServer:"تعذّر الوصول إلى الخادم.",statusLive:"● مباشر",statusFinished:"انتهت",statusUpcoming:"قادمة",vs:"ضد",aiBtn:"⚡ تحليل الذكاء الاصطناعي",aiLoading:"جارٍ التحليل…",lockUsed:"🔒 لقد استخدمت تحليلك المجاني.<br>اشترك لفتح جميع التحليلات.",lockCta:"افتح · 14,90€/شهر",respHtml:"<b>المقامرة تنطوي على مخاطر:</b> الديون، الإدمان، العزلة. إن احتجت إلى مساعدة، اتصل بـ <b>09 74 75 13 13</b> (فرنسا، مكالمة مجانية). التحليلات هنا <b>لأغراض إعلامية فقط</b> ولا تضمن أي ربح. لا يمكن التنبؤ بأي نتيجة رياضية بشكل مؤكد.",about:"Pronos Foot خدمة مستقلة للمعلومات والتحليل الرياضي. لا تقدّم الرهانات وليست مرتبطة بأي مشغّل. للمراهنة، استخدم فقط مشغّلاً مرخّصاً من ANJ.",linkLegal:"إشعار قانوني",linkCgv:"الشروط",linkPrivacy:"الخصوصية",linkContact:"اتصل بنا",modalTitle:"باقة Pronos",priceUnit:"/ شهر",feat1:"جميع تحليلات الذكاء الاصطناعي مفتوحة",feat2:"كأس العالم 2026 + كبرى الدوريات",feat3:"اتجاهات ما قبل المباراة بلا حدود",feat4:"بدون التزام، يمكن الإلغاء في أي وقت",subscribeBtn:"اشترك",modalNote:"تحليل لأغراض إعلامية. +18. المراهنة تنطوي على مخاطر.",paymentSoon:"سيتوفّر الدفع قريبًا. (تكامل Stripe قادم.)"},
+  de:{locale:"de-DE",subscribe:"Abonnieren · 14,90€",heroKick:"WM 2026 · 11. Juni – 19. Juli",heroLine:"Vorschau-Analysen zur",heroEm:"Weltmeisterschaft",lead:"Spiele, Trends und KI-gestützte Vorschau-Analysen — WM 2026 und Europas Topligen, laufend aktualisiert.",days:"Tage",hours:"Std",min:"Min",sec:"Sek",cdNote:"Bis zum Anpfiff: Mexiko – Südafrika im Estadio Azteca.",liveBig:"JETZT LIVE",liveNote:"Die WM 2026 hat begonnen — verfolge die Spiele unten.",tabWc:"🏆 WM",loading:"Spiele werden geladen…",noMatches:"Derzeit keine Spiele.",errLoad:"Ladefehler.",errServer:"Server nicht erreichbar.",statusLive:"● LIVE",statusFinished:"Beendet",statusUpcoming:"Demnächst",vs:"VS",aiBtn:"⚡ KI-Analyse",aiLoading:"Analyse läuft…",lockUsed:"🔒 Du hast deine kostenlose Analyse genutzt.<br>Abonniere, um alle Analysen freizuschalten.",lockCta:"Freischalten · 14,90€/Mon.",respHtml:"<b>Glücksspiel birgt Risiken:</b> Schulden, Sucht, Isolation. Wenn du Hilfe brauchst, ruf <b>09 74 75 13 13</b> an (Frankreich, kostenlos). Die Analysen hier dienen <b>ausschließlich zur Information</b> und garantieren keine Gewinne. Kein Sportergebnis ist mit Sicherheit vorhersehbar.",about:"Pronos Foot ist ein unabhängiger Dienst für Sportinformationen und -analysen. Er bietet keine Wetten an und ist mit keinem Anbieter verbunden. Zum Wetten nutze nur einen von der ANJ lizenzierten Anbieter.",linkLegal:"Impressum",linkCgv:"AGB",linkPrivacy:"Datenschutz",linkContact:"Kontakt",modalTitle:"Pronos-Pass",priceUnit:"/ Monat",feat1:"Alle KI-Analysen freigeschaltet",feat2:"WM 2026 + Topligen",feat3:"Unbegrenzte Vorschau-Trends",feat4:"Keine Bindung, jederzeit kündbar",subscribeBtn:"Abonnieren",modalNote:"Analyse zu Informationszwecken. 18+. Wetten bergen Risiken.",paymentSoon:"Zahlung bald verfügbar. (Stripe-Integration folgt.)"},
+  it:{locale:"it-IT",subscribe:"Abbonati · 14,90€",heroKick:"Mondiali 2026 · 11 giu – 19 lug",heroLine:"Le analisi pre-partita dei",heroEm:"Mondiali",lead:"Partite, tendenze e analisi pre-partita con l'IA — Mondiali 2026 e i grandi campionati europei, aggiornati di continuo.",days:"Giorni",hours:"Ore",min:"Min",sec:"Sec",cdNote:"Al fischio d'inizio: Messico – Sudafrica all'Estadio Azteca.",liveBig:"IN DIRETTA",liveNote:"I Mondiali 2026 sono iniziati — segui le partite qui sotto.",tabWc:"🏆 Mondiali",loading:"Caricamento partite…",noMatches:"Nessuna partita al momento.",errLoad:"Errore di caricamento.",errServer:"Impossibile contattare il server.",statusLive:"● LIVE",statusFinished:"Finita",statusUpcoming:"In arrivo",vs:"VS",aiBtn:"⚡ Analisi IA",aiLoading:"Analisi in corso…",lockUsed:"🔒 Hai usato la tua analisi gratuita.<br>Abbonati per sbloccare tutte le analisi.",lockCta:"Sblocca · 14,90€/mese",respHtml:"<b>Il gioco comporta rischi:</b> debiti, dipendenza, isolamento. Se hai bisogno di aiuto, chiama <b>09 74 75 13 13</b> (Francia, chiamata gratuita). Le analisi qui sono <b>solo a scopo informativo</b> e non garantiscono alcuna vincita. Nessun risultato sportivo è prevedibile con certezza.",about:"Pronos Foot è un servizio indipendente di informazione e analisi sportiva. Non offre scommesse e non è associato ad alcun operatore. Per scommettere, rivolgiti solo a un operatore autorizzato dall'ANJ.",linkLegal:"Note legali",linkCgv:"Termini",linkPrivacy:"Privacy",linkContact:"Contatto",modalTitle:"Pass Pronos",priceUnit:"/ mese",feat1:"Tutte le analisi IA sbloccate",feat2:"Mondiali 2026 + grandi campionati",feat3:"Tendenze pre-partita illimitate",feat4:"Nessun vincolo, disdici quando vuoi",subscribeBtn:"Abbonati",modalNote:"Analisi a scopo informativo. 18+. Le scommesse comportano rischi.",paymentSoon:"Il pagamento sarà presto disponibile. (Integrazione Stripe in arrivo.)"}
+};
+
+let lang = "fr";
+let T = TR.fr;
+try{ const saved = localStorage.getItem("pf_lang"); if(saved && TR[saved]) lang = saved; }catch(e){}
+
+const KICKOFF = new Date("2026-06-11T19:00:00Z");
+let lastFixtures = [];
+let currentComp = "wc";
+let freeUsed = false;
+const isSubscribed = false;
+let trialStartMem = 0;
+
+// Textes de l'essai gratuit (fusionnés avec T selon la langue)
+const TRIAL = {
+  fr:{navCta:"Essai gratuit",trialCta:"Démarrer l'essai gratuit",trialHeadline:"1 jour d'essai gratuit",trialAfter:"puis 14,90€/mois — résiliable à tout moment",trialStarted:"Essai activé ✓ Accès illimité pendant 24h.",trialEndedMsg:"🔒 Ton essai gratuit est terminé.<br>Abonne-toi pour continuer."},
+  en:{navCta:"Free trial",trialCta:"Start free trial",trialHeadline:"1-day free trial",trialAfter:"then €14.90/mo — cancel anytime",trialStarted:"Trial activated ✓ Unlimited access for 24h.",trialEndedMsg:"🔒 Your free trial has ended.<br>Subscribe to continue."},
+  es:{navCta:"Prueba gratis",trialCta:"Empezar prueba gratis",trialHeadline:"1 día de prueba gratis",trialAfter:"luego 14,90€/mes — cancela cuando quieras",trialStarted:"Prueba activada ✓ Acceso ilimitado durante 24h.",trialEndedMsg:"🔒 Tu prueba gratis ha terminado.<br>Suscríbete para continuar."},
+  pt:{navCta:"Teste grátis",trialCta:"Começar teste grátis",trialHeadline:"1 dia de teste grátis",trialAfter:"depois 14,90€/mês — cancela quando quiseres",trialStarted:"Teste ativado ✓ Acesso ilimitado por 24h.",trialEndedMsg:"🔒 O teu teste grátis terminou.<br>Assina para continuar."},
+  ar:{navCta:"تجربة مجانية",trialCta:"ابدأ التجربة المجانية",trialHeadline:"يوم تجريبي مجاني",trialAfter:"ثم 14,90€/شهر — يمكن الإلغاء في أي وقت",trialStarted:"تم تفعيل التجربة ✓ وصول غير محدود لمدة 24 ساعة.",trialEndedMsg:"🔒 انتهت تجربتك المجانية.<br>اشترك للمتابعة."},
+  de:{navCta:"Kostenlos testen",trialCta:"Gratis-Test starten",trialHeadline:"1 Tag gratis testen",trialAfter:"danach 14,90€/Monat — jederzeit kündbar",trialStarted:"Test aktiviert ✓ 24 Std. unbegrenzter Zugriff.",trialEndedMsg:"🔒 Dein Gratis-Test ist beendet.<br>Abonniere, um fortzufahren."},
+  it:{navCta:"Prova gratis",trialCta:"Inizia la prova gratis",trialHeadline:"1 giorno di prova gratis",trialAfter:"poi 14,90€/mese — disdici quando vuoi",trialStarted:"Prova attivata ✓ Accesso illimitato per 24h.",trialEndedMsg:"🔒 La tua prova gratuita è finita.<br>Abbonati per continuare."}
+};
+
+function trialStart(){ let s=trialStartMem; try{const v=localStorage.getItem("pf_trial_start"); if(v) s=parseInt(v,10);}catch(e){} return s; }
+function trialActive(){ const s=trialStart(); return s>0 && (Date.now()-s) < 86400000; }   // 24h
+function trialEnded(){ const s=trialStart(); return s>0 && (Date.now()-s) >= 86400000; }
+function hasAccess(){ return isSubscribed || trialActive(); }
+function startTrial(){
+  const now = Date.now();
+  trialStartMem = now;
+  try{ localStorage.setItem("pf_trial_start", String(now)); }catch(e){}
+  closeModal();
+  if(lastFixtures.length) renderList();
+  alert(T.trialStarted);
+}
+
+function applyLang(code){
+  lang = code; T = Object.assign({}, TR[code] || TR.fr, TRIAL[code] || TRIAL.fr);
+  document.documentElement.lang = code;
+  document.documentElement.dir = (code === "ar") ? "rtl" : "ltr";
+  try{ localStorage.setItem("pf_lang", code); }catch(e){}
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key = el.getAttribute("data-i18n");
+    if(T[key] == null) return;
+    if(el.getAttribute("data-html") === "1") el.innerHTML = T[key];
+    else el.textContent = T[key];
+  });
+  document.getElementById("subBtn").textContent = T.navCta;
+  document.getElementById("subscribeBtn").textContent = T.trialCta;
+  document.getElementById("langSel").value = code;
+  if(lastFixtures.length) renderList();
+}
+
+function renderCountdown(){
+  const el = document.getElementById("countdown");
+  const note = document.getElementById("cdNote");
+  const diff = KICKOFF - new Date();
+  if(diff <= 0){
+    el.innerHTML = '<div class="cd" style="min-width:auto"><div class="n" style="color:var(--hot)">'+T.liveBig+'</div></div>';
+    note.textContent = T.liveNote; return;
+  }
+  const d=Math.floor(diff/86400000),h=Math.floor(diff/3600000)%24,m=Math.floor(diff/60000)%60,s=Math.floor(diff/1000)%60;
+  const cell=(n,l)=>'<div class="cd"><div class="n">'+String(n).padStart(2,"0")+'</div><div class="l">'+l+'</div></div>';
+  el.innerHTML = cell(d,T.days)+cell(h,T.hours)+cell(m,T.min)+cell(s,T.sec);
+  note.textContent = T.cdNote;
+}
+
+function openModal(){document.getElementById("modal").classList.add("open")}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+
+const matchesEl = document.getElementById("matches");
+const stateEl = document.getElementById("state");
+
+function fmtDate(iso){
+  try{ return new Date(iso).toLocaleString(T.locale,{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }
+  catch(e){ return new Date(iso).toLocaleString(); }
+}
+
+async function loadMatches(comp){
+  currentComp = comp;
+  matchesEl.innerHTML = ""; lastFixtures = [];
+  stateEl.innerHTML = '<span class="spinner"></span> '+T.loading;
+  try{
+    const r = await fetch("/api/matches?comp="+comp);
+    const data = await r.json();
+    if(!data.ok){ stateEl.textContent = "⚠️ "+(data.error||T.errLoad); return; }
+    lastFixtures = (data.fixtures||[]).sort((a,b)=> new Date(a.fixture.date)-new Date(b.fixture.date));
+    renderList();
+  }catch(e){ stateEl.textContent = "⚠️ "+T.errServer; }
+}
+
+function renderList(){
+  matchesEl.innerHTML = "";
+  if(!lastFixtures.length){ stateEl.textContent = T.noMatches; return; }
+  stateEl.textContent = "";
+  lastFixtures.slice(0,30).forEach(fx => matchesEl.appendChild(makeCard(fx)));
+}
+
+function makeCard(fx){
+  const home=fx.teams.home, away=fx.teams.away;
+  const st=fx.fixture.status?.short || "NS";
+  const live=["1H","2H","HT","ET","LIVE"].includes(st);
+  const finished=["FT","AET","PEN"].includes(st);
+  const round=fx.league?.round || fx.league?.name || "";
+  const statusTxt = live?T.statusLive:(finished?T.statusFinished:T.statusUpcoming);
+  const middle = (finished||live)
+    ? '<div class="score">'+(fx.goals.home??0)+' – '+(fx.goals.away??0)+'</div>'
+    : '<div class="vs">'+T.vs+'</div>';
+
+  const card=document.createElement("div");
+  card.className="card";
+  card.innerHTML =
+    '<div class="top"><span>'+round+'</span><span class="'+(live?'badge-live':'')+'">'+statusTxt+'</span></div>'+
+    '<div class="teams">'+
+      '<div class="team"><img src="'+home.logo+'" alt="" onerror="this.style.opacity=.2"><span>'+home.name+'</span></div>'+
+      middle+
+      '<div class="team"><img src="'+away.logo+'" alt="" onerror="this.style.opacity=.2"><span>'+away.name+'</span></div>'+
+    '</div>'+
+    '<div class="when">'+fmtDate(fx.fixture.date)+'</div>'+
+    '<button class="ai-btn">'+T.aiBtn+'</button>'+
+    '<div class="slot"></div>';
+
+  const btn=card.querySelector(".ai-btn");
+  const slot=card.querySelector(".slot");
+
+  async function generate(){
+    btn.disabled=true; btn.innerHTML='<span class="spinner"></span> '+T.aiLoading;
+    try{
+      const r=await fetch("/api/pronos",{method:"POST",headers:{"content-type":"application/json"},
+        body:JSON.stringify({id:fx.fixture.id,home:home.name,away:away.name,league:fx.league?.name,date:fx.fixture.date,lang:lang})});
+      const data=await r.json();
+      if(!data.ok){ slot.innerHTML='<div class="prono">⚠️ '+(data.error||T.errLoad)+'</div>'; btn.style.display="none"; return; }
+      slot.innerHTML='<div class="prono">'+data.prono+'</div>';
+      btn.style.display="none";
+    }catch(e){
+      slot.innerHTML='<div class="prono">⚠️ '+T.errServer+'</div>';
+      btn.disabled=false; btn.innerHTML=T.aiBtn;
+    }
+  }
+
+  btn.addEventListener("click", ()=>{
+    if(hasAccess()){ generate(); return; }   // abonné ou essai en cours -> illimité
+    if(!freeUsed){ freeUsed=true; generate(); return; }  // 1 analyse gratuite (teaser)
+    const ended = trialEnded();
+    const msg = ended ? T.trialEndedMsg : T.lockUsed;
+    const cta = ended ? T.lockCta : T.trialCta;
+    slot.innerHTML='<div class="lock"><p>'+msg+'</p><button class="cta" onclick="openModal()">'+cta+'</button></div>';
+  });
+  return card;
+}
+
+document.getElementById("tabs").addEventListener("click",e=>{
+  const t=e.target.closest(".tab"); if(!t) return;
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  t.classList.add("active");
+  loadMatches(t.dataset.comp);
+});
+document.getElementById("langSel").addEventListener("change",e=> applyLang(e.target.value));
+
+// Démarrage
+applyLang(lang);
+renderCountdown(); setInterval(renderCountdown,1000);
+loadMatches("wc");
+</script>
+</body>
+</html>
