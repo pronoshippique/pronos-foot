@@ -232,7 +232,16 @@ const TRIAL = {
 function trialStart(){ let s=trialStartMem; try{const v=localStorage.getItem("pf_trial_start"); if(v) s=parseInt(v,10);}catch(e){} return s; }
 function trialActive(){ const s=trialStart(); return s>0 && (Date.now()-s) < 86400000; }   // 24h
 function trialEnded(){ const s=trialStart(); return s>0 && (Date.now()-s) >= 86400000; }
-function hasAccess(){ return isSubscribed || trialActive(); }
+const OWNER_CODE = "julien-vip-2026"; // TON code perso : ouvre ton site avec ?acces=julien-vip-2026 une fois pour un accès illimité
+let ownerMem = false;
+function isOwner(){
+  let code = null;
+  try{ code = new URL(window.location.href).searchParams.get("acces"); }catch(e){}
+  if(code === OWNER_CODE){ ownerMem = true; try{ localStorage.setItem("pf_owner","1"); }catch(e){} }
+  try{ if(localStorage.getItem("pf_owner") === "1") return true; }catch(e){}
+  return ownerMem;
+}
+function hasAccess(){ return isOwner() || isSubscribed || trialActive(); }
 function startTrial(){
   const now = Date.now();
   trialStartMem = now;
