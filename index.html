@@ -4,6 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Pronos Foot — Coupe du Monde 2026</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a0f0c">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pronos Foot">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
@@ -150,6 +157,7 @@
 
   <div class="tabs" id="tabs">
     <button class="tab active" data-comp="wc" data-i18n="tabWc"></button>
+    <button class="tab" data-comp="today" data-i18n="tabToday"></button>
     <button class="tab" data-comp="l1">Ligue 1</button>
     <button class="tab" data-comp="pl">Premier League</button>
     <button class="tab" data-comp="liga">La Liga</button>
@@ -169,11 +177,12 @@
     </div>
     <p data-i18n="about"></p>
     <div class="foot-links">
-      <a href="#" data-i18n="linkLegal"></a>
-      <a href="#" data-i18n="linkCgv"></a>
-      <a href="#" data-i18n="linkPrivacy"></a>
+      <a href="/legal.html#mentions" data-i18n="linkLegal"></a>
+      <a href="/legal.html#cgv" data-i18n="linkCgv"></a>
+      <a href="/legal.html#confidentialite" data-i18n="linkPrivacy"></a>
+      <a href="/legal.html#faq">FAQ</a>
       <a href="https://anj.fr" target="_blank" rel="noopener">ANJ</a>
-      <a href="#" data-i18n="linkContact"></a>
+      <a href="mailto:contact57.pronosfoot@gmail.com" data-i18n="linkContact"></a>
     </div>
   </div>
 </footer>
@@ -216,17 +225,18 @@ let lastFixtures = [];
 let currentComp = "wc";
 let freeUsed = false;
 const isSubscribed = false;
+const FREE_MODE = true; // ⚽ MODE GRATUIT (Mondial) : tout est gratuit, pas de paywall. Repasser à false plus tard pour réactiver l'abonnement.
 let trialStartMem = 0;
 
 // Textes de l'essai gratuit (fusionnés avec T selon la langue)
 const TRIAL = {
-  fr:{navCta:"Essai gratuit",trialCta:"Démarrer l'essai gratuit",trialHeadline:"1 jour d'essai gratuit",trialAfter:"puis 14,90€/mois — résiliable à tout moment",trialStarted:"Essai activé ✓ Accès illimité pendant 24h.",trialEndedMsg:"🔒 Ton essai gratuit est terminé.<br>Abonne-toi pour continuer."},
-  en:{navCta:"Free trial",trialCta:"Start free trial",trialHeadline:"1-day free trial",trialAfter:"then €14.90/mo — cancel anytime",trialStarted:"Trial activated ✓ Unlimited access for 24h.",trialEndedMsg:"🔒 Your free trial has ended.<br>Subscribe to continue."},
-  es:{navCta:"Prueba gratis",trialCta:"Empezar prueba gratis",trialHeadline:"1 día de prueba gratis",trialAfter:"luego 14,90€/mes — cancela cuando quieras",trialStarted:"Prueba activada ✓ Acceso ilimitado durante 24h.",trialEndedMsg:"🔒 Tu prueba gratis ha terminado.<br>Suscríbete para continuar."},
-  pt:{navCta:"Teste grátis",trialCta:"Começar teste grátis",trialHeadline:"1 dia de teste grátis",trialAfter:"depois 14,90€/mês — cancela quando quiseres",trialStarted:"Teste ativado ✓ Acesso ilimitado por 24h.",trialEndedMsg:"🔒 O teu teste grátis terminou.<br>Assina para continuar."},
-  ar:{navCta:"تجربة مجانية",trialCta:"ابدأ التجربة المجانية",trialHeadline:"يوم تجريبي مجاني",trialAfter:"ثم 14,90€/شهر — يمكن الإلغاء في أي وقت",trialStarted:"تم تفعيل التجربة ✓ وصول غير محدود لمدة 24 ساعة.",trialEndedMsg:"🔒 انتهت تجربتك المجانية.<br>اشترك للمتابعة."},
-  de:{navCta:"Kostenlos testen",trialCta:"Gratis-Test starten",trialHeadline:"1 Tag gratis testen",trialAfter:"danach 14,90€/Monat — jederzeit kündbar",trialStarted:"Test aktiviert ✓ 24 Std. unbegrenzter Zugriff.",trialEndedMsg:"🔒 Dein Gratis-Test ist beendet.<br>Abonniere, um fortzufahren."},
-  it:{navCta:"Prova gratis",trialCta:"Inizia la prova gratis",trialHeadline:"1 giorno di prova gratis",trialAfter:"poi 14,90€/mese — disdici quando vuoi",trialStarted:"Prova attivata ✓ Accesso illimitato per 24h.",trialEndedMsg:"🔒 La tua prova gratuita è finita.<br>Abbonati per continuare."}
+  fr:{navCta:"Essai gratuit",trialCta:"Démarrer l'essai gratuit",trialHeadline:"1 jour d'essai gratuit",trialAfter:"puis 14,90€/mois — résiliable à tout moment",trialStarted:"Essai activé ✓ Accès illimité pendant 24h.",trialEndedMsg:"🔒 Ton essai gratuit est terminé.<br>Abonne-toi pour continuer.",tabToday:"📅 Matchs du jour"},
+  en:{navCta:"Free trial",trialCta:"Start free trial",trialHeadline:"1-day free trial",trialAfter:"then €14.90/mo — cancel anytime",trialStarted:"Trial activated ✓ Unlimited access for 24h.",trialEndedMsg:"🔒 Your free trial has ended.<br>Subscribe to continue.",tabToday:"📅 Today's matches"},
+  es:{navCta:"Prueba gratis",trialCta:"Empezar prueba gratis",trialHeadline:"1 día de prueba gratis",trialAfter:"luego 14,90€/mes — cancela cuando quieras",trialStarted:"Prueba activada ✓ Acceso ilimitado durante 24h.",trialEndedMsg:"🔒 Tu prueba gratis ha terminado.<br>Suscríbete para continuar.",tabToday:"📅 Partidos de hoy"},
+  pt:{navCta:"Teste grátis",trialCta:"Começar teste grátis",trialHeadline:"1 dia de teste grátis",trialAfter:"depois 14,90€/mês — cancela quando quiseres",trialStarted:"Teste ativado ✓ Acesso ilimitado por 24h.",trialEndedMsg:"🔒 O teu teste grátis terminou.<br>Assina para continuar.",tabToday:"📅 Jogos de hoje"},
+  ar:{navCta:"تجربة مجانية",trialCta:"ابدأ التجربة المجانية",trialHeadline:"يوم تجريبي مجاني",trialAfter:"ثم 14,90€/شهر — يمكن الإلغاء في أي وقت",trialStarted:"تم تفعيل التجربة ✓ وصول غير محدود لمدة 24 ساعة.",trialEndedMsg:"🔒 انتهت تجربتك المجانية.<br>اشترك للمتابعة.",tabToday:"📅 مباريات اليوم"},
+  de:{navCta:"Kostenlos testen",trialCta:"Gratis-Test starten",trialHeadline:"1 Tag gratis testen",trialAfter:"danach 14,90€/Monat — jederzeit kündbar",trialStarted:"Test aktiviert ✓ 24 Std. unbegrenzter Zugriff.",trialEndedMsg:"🔒 Dein Gratis-Test ist beendet.<br>Abonniere, um fortzufahren.",tabToday:"📅 Spiele heute"},
+  it:{navCta:"Prova gratis",trialCta:"Inizia la prova gratis",trialHeadline:"1 giorno di prova gratis",trialAfter:"poi 14,90€/mese — disdici quando vuoi",trialStarted:"Prova attivata ✓ Accesso illimitato per 24h.",trialEndedMsg:"🔒 La tua prova gratuita è finita.<br>Abbonati per continuare.",tabToday:"📅 Partite di oggi"}
 };
 
 function trialStart(){ let s=trialStartMem; try{const v=localStorage.getItem("pf_trial_start"); if(v) s=parseInt(v,10);}catch(e){} return s; }
@@ -241,7 +251,7 @@ function isOwner(){
   try{ if(localStorage.getItem("pf_owner") === "1") return true; }catch(e){}
   return ownerMem;
 }
-function hasAccess(){ return isOwner() || isSubscribed || trialActive(); }
+function hasAccess(){ return FREE_MODE || isOwner() || isSubscribed || trialActive(); }
 function startTrial(){
   const now = Date.now();
   trialStartMem = now;
@@ -262,7 +272,9 @@ function applyLang(code){
     if(el.getAttribute("data-html") === "1") el.innerHTML = T[key];
     else el.textContent = T[key];
   });
-  document.getElementById("subBtn").textContent = T.navCta;
+  const sb = document.getElementById("subBtn");
+  sb.textContent = T.navCta;
+  sb.style.display = FREE_MODE ? "none" : "";
   document.getElementById("subscribeBtn").textContent = T.trialCta;
   document.getElementById("langSel").value = code;
   if(lastFixtures.length) renderList();
@@ -380,5 +392,7 @@ applyLang(lang);
 renderCountdown(); setInterval(renderCountdown,1000);
 loadMatches("wc");
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}</script>
 </body>
 </html>
